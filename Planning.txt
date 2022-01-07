@@ -1,0 +1,96 @@
+--------------------------------------------------------------------------------
+<<<<<<<<<<<<<<<<<<<< Plano para a realização do Projeto 1 >>>>>>>>>>>>>>>>>>>>>>
+--------------------------------------------------------------------------------
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TO DO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Testar exaustivamente no sigma
+2. Verificar lizard and mypy
+3. Verificar documentação again
+4. Verificar penalizações:
+        * Parêntesis desnecessários
+        * If True return True
+        * Repetição de código
+5. Verificar tudo outra vez
+6. Apagar documentos a mais no repositório
+7. Fazer o commit final
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Dúvidas? >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+################################## GERAL #######################################
+
+Qual é a indentação das line continuations?
+Porque me aparece aquele erro no mypy?
+É possível melhorar eh_matriz?
+Há demasiados comentários?
+Está suficientemente legível?
+
+Comprehension count = 4
+
+############################## FUNCTIONS_CHECK #################################
+
+__REPRESENTAÇÃO_DA_COORDENADA__
+
+#CRIA_POSICAO -> verifica argumentos
+OK
+
+#EH_POSICAO
+OK
+
+#POSICAO_LINHA e #POSICAO_COLUNA
+OK
+
+#POSICAO_IGUAL
+OK
+
+#POSICAO_STR
+OK
+
+_________________________BARREIRA_DE_ABSTRAÇÃO_POSIÇÃO__________________________
+
+__REPRESENTAÇÃO_DA_MATRIZ__
+
+#CRIA_MATRIZ -> verifica argumentos
+OK
+
+#EH_MATRIZ
+OK
+
+#MATRIZ_ZERO
+OK
+
+#MATRIZ_COPIA
+OK
+
+__MANIPULAÇÃO_DA_MATRIZ__
+
+#MATRIZ_POSIÇÃO
+OK
+
+#MATRIZ_VALOR
+OK
+
+#MATRIZ_DIMENSÃO
+OK
+
+#MATRIZ_DENSIDADE
+OK
+
+#MATRIZ_NULO
+OK
+
+_________________________BARREIRA_DE_ABSTRAÇÃO_MATRIZ___________________________
+
+__OPERAÇÕES_SOBRE_A_MATRIZ__
+
+#MATRIZ_STR
+OK
+
+#MATRIZ_LINHA
+OK
+
+#MATRIZ_COLUNA
+OK
+
+#MATRIZ_DIAGONAL
+OK
