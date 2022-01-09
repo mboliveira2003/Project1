@@ -5,7 +5,7 @@ manipular matrizes esparsas, respeitando diversas barreiras de abstração.
 """
 
 __author__ = "ist1103514 Margarida Barros de Oliveira"
-__version__ = "5.1"
+__version__ = "5.2"
 __all__ = ['cria_posicao', 'eh_posicao', 'posicao_linha', 'posicao_coluna',
            'posicao_igual', 'posicao_str', 'cria_matriz', 'eh_matriz',
            'matriz_zero', 'matriz_copia', 'matriz_posicao', 'matriz_valor',
@@ -14,18 +14,24 @@ __all__ = ['cria_posicao', 'eh_posicao', 'posicao_linha', 'posicao_coluna',
 
 
 # REPRESENTAÇÃO DA COORDENADA
+'''
+uma posição é definida como um tuplo cujo primeiro e segundo elemento 
+correspondem respetivamente ao índice da linha e da coluna dessa posição
+'''
+
+
 def cria_posicao(num_linha: int, num_coluna: int):
     """a função devolve uma posição dados dois inteiros não negativos
         num_linha: representa o índice da linha do elemento
         num_coluna: representa o índice da coluna do elemento
         retorno: posição
     """
+    # os índices linha e coluna são inteiros não negativos
     if type(num_linha) != int or type(num_coluna) != int \
             or num_linha < 0 or num_coluna < 0:
         raise ValueError("cria_posição: argumentos inválidos")
-    else:
-        posicao = (num_linha, num_coluna)
-        return posicao
+    posicao = (num_linha, num_coluna)
+    return posicao
 
 
 def eh_posicao(arg) -> bool:
@@ -33,10 +39,9 @@ def eh_posicao(arg) -> bool:
         arg: any
     """
     # a posição é um tuplo de 2 inteiros não negativos
-    if type(arg) == tuple:
-        if len(arg) == 2:
-            if type(arg[0]) == int and type(arg[1]) == int:
-                return arg[0] >= 0 and arg[1] >= 0
+    if type(arg) == tuple and len(arg) == 2:
+        if type(arg[0]) == int and type(arg[1]) == int:
+            return arg[0] >= 0 and arg[1] >= 0
     return False
 
 
@@ -59,8 +64,6 @@ def posicao_igual(posicao1, posicao2) -> bool:
         posicao1: posição
         posicao2: posição
     """
-    if not eh_posicao(posicao1) or not eh_posicao(posicao2):
-        return False
     return posicao1 == posicao2
 
 
@@ -116,22 +119,19 @@ def eh_matriz(arg) -> bool:
         arg: any
     """
     # uma matriz é um dicionário...
-    if type(arg) == dict:
-        # ...que tem obrigatoriamente uma key "valor_nulo"...
-        if "valor_nulo" not in arg.keys():
-            return False
-        for i in arg:
-            # ... em que as restantes keys são posições transformadas em keys...
-            if eh_posicao_key(i) or i == "valor_nulo":
-                # ... cujos values são floats...
-                # ...e em que a todas as posições correspondem values não nulos
-                if type(arg[i]) != float or (arg[i] == arg["valor_nulo"]
-                                             and i != "valor_nulo"):
-                    return False
-            else:
-                return False
-    else:
+    if type(arg) != dict:
         return False
+    # ...que tem obrigatoriamente uma key "valor_nulo"...
+    if "valor_nulo" not in arg.keys():
+        return False
+    for i in arg:
+        # ... em que as restantes keys são posições transformadas em keys...
+        if eh_posicao_key(i) or i == "valor_nulo":
+            # ... cujos values são floats...
+            # ...e em que a todas as posições correspondem values não nulos
+            if type(arg[i]) != float or (arg[i] == arg["valor_nulo"]
+                                         and i != "valor_nulo"):
+                return False
     return True
 
 
@@ -151,6 +151,17 @@ def matriz_copia(matriz):
 
 
 # MANIPULAÇÃO DA MATRIZ
+def matriz_valor(matriz, posicao) -> float:
+    """a função devolve o valor da posição da matriz passadas como argumentos
+        matriz: matriz
+        posicao: posição
+    """
+    posicao = posicao_key(posicao)
+    # devolve-se o elemento que ocupa a posição especificada
+    # caso a posição não esteja representada é devolvido o zero da matriz
+    return matriz.get(posicao, matriz_zero(matriz))
+
+
 def matriz_posicao(matriz, posicao, valor: float) -> float:
     """a função modifica o valor que ocupa a posição especificada
         matriz: matriz
@@ -169,19 +180,6 @@ def matriz_posicao(matriz, posicao, valor: float) -> float:
     elif posicao in matriz.keys():
         del matriz[posicao]
     return valor_antigo
-
-
-def matriz_valor(matriz, posicao) -> float:
-    """a função devolve o valor da posição da matriz passadas como argumentos
-        matriz: matriz
-        posicao: posição
-    """
-    posicao = posicao_key(posicao)
-    # a posição introduzida é ocupada por um valor não nulo (existe)
-    if posicao in matriz.keys():
-        return matriz[posicao]
-    # a posição introduzida é ocupada pelo valor nulo (não existe)
-    return matriz_zero(matriz)
 
 
 def matriz_dimensao(matriz) -> tuple:
@@ -206,8 +204,9 @@ def indices_linha(matriz) -> list:
         matriz: matriz
     """
     # obtém-se os índices linha extremos
-    linha_min = posicao_linha(matriz_dimensao(matriz)[0])
-    linha_max = posicao_linha(matriz_dimensao(matriz)[1])
+    cord_extremas = matriz_dimensao(matriz)
+    linha_min = posicao_linha(cord_extremas[0])
+    linha_max = posicao_linha(cord_extremas[1])
     # cria-se uma lista com todos os índices entre eles, inclusive
     return [i for i in range(linha_min, linha_max + 1)]
 
@@ -217,8 +216,9 @@ def indices_coluna(matriz) -> list:
         matriz: matriz
     """
     # obtém-se os índices coluna extremos
-    coluna_min = posicao_coluna(matriz_dimensao(matriz)[0])
-    coluna_max = posicao_coluna(matriz_dimensao(matriz)[1])
+    cord_extremas = matriz_dimensao(matriz)
+    coluna_min = posicao_coluna(cord_extremas[0])
+    coluna_max = posicao_coluna(cord_extremas[1])
     # cria-se uma lista com todos os índices entre eles, inclusive
     return [i for i in range(coluna_min, coluna_max + 1)]
 

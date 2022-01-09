@@ -6,24 +6,12 @@
 
 1. Testar exaustivamente no sigma
 2. Verificar lizard and mypy
-3. Verificar documentação again
-4. Verificar penalizações:
-        * Parêntesis desnecessários
-        * If True return True
-        * Repetição de código
-5. Verificar tudo outra vez
-6. Apagar documentos a mais no repositório
-7. Fazer o commit final
+3. Apagar documentos a mais no repositório
+4. Fazer o commit final
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Dúvidas? >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ################################## GERAL #######################################
-
-Qual é a indentação das line continuations?
-Porque me aparece aquele erro no mypy?
-É possível melhorar eh_matriz?
-Há demasiados comentários?
-Está suficientemente legível?
 
 Comprehension count = 4
 
